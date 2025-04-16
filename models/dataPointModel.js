@@ -2,14 +2,12 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 const dataPointSchema = new Schema({
-	name: String, // Name of the data point
-	type: String, // Data type: Text Field, Number, Date, Dropdown
-	description: String,
-	columns: String, // Number of columns (if multi-column enabled)
-	isMultiColumn: {
-		type: Boolean,
-		default: false,
-	},
+	name: { type: String, required: true }, 
+	type: { type: String, required: true }, 
+	description: { type: String, required: true }, 
+	frequency: { type: String, required: true }, 
+	userRoles: { type: [String], required: true }, 
+	date: { type: Date, required: true }, 
 });
 
 export const DataPoint = mongoose.model("DataPoint", dataPointSchema);
