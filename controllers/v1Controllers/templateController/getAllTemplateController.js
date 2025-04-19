@@ -2,12 +2,19 @@ import { DataCollectionTemplate } from "../../../models/dataCollectionTemplateSc
 
 export const getAllTemplatesController = async (req, res) => {
 	try {
-		const templates = await DataCollectionTemplate.find().populate(
-			"dataPoints"
-		);
+		// Fetch templates and populate the dataPoints field
+		const templates = await DataCollectionTemplate.find().populate({
+			path: "dataPoints", // Path to the referenced field
+			model: "DataPoint", // Explicitly define the referenced model
+			select: "name type description frequency userRoles date", // Optional: Select only the fields you need
+		});
 
-		return res.json({ success: true, data: templates });
+		res.status(200).json({
+			success: true,
+			data: templates,
+		});
 	} catch (error) {
-		return res.status(500).json({ success: false, message: error.message });
+		console.error("Error fetching templates:", error);
+		res.status(500).json({ success: false, message: error.message });
 	}
 };

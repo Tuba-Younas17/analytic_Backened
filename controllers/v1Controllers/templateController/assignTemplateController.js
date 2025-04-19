@@ -1,32 +1,39 @@
-import mongoose from "mongoose";
 import { AssignedTemplate } from "../../../models/assignedTemplateSchema.js";
 
 export const assignTemplateController = async (req, res) => {
 	try {
-		const { title,  roles, cycle } = req.body;
+		const { templates, userGroup, cycle } = req.body;
 
-		// Check if templateId is a valid ObjectId
-		// if (!templateId || !mongoose.Types.ObjectId.isValid(templateId)) {
-		// 	return res.status(400).json({
-		// 		success: false,
-		// 		message: "Invalid or missing templateId",
-		// 	});
-		// }
+		if (!templates || templates.length === 0 || !userGroup || !cycle) {
+			return res.status(400).json({
+				success: false,
+				message:
+					"At least one template, userGroup, and cycle are required",
+			});
+		}
 
-		const assignment = await AssignedTemplate.create({
-			title,
-			// template: templateId,
-			roles,
-			cycle,
-		});
+		// Create an AssignedTemplate for each template selected
+		const assignedTemplates = await Promise.all(
+			templates.map(async (templateId) => {
+				const assignedTemplate = new AssignedTemplate({
+					title: "Assigned Template", // You can modify this based on your need
+					template: templateId,
+					userGroup: userGroup,
+					roles: ["dataCollector", "administrator","dashboardViewer"], // You can modify this based on user roles
+					cycle: cycle,
+				});
 
-		return res.json({
+				return await assignedTemplate.save();
+			})
+		);
+
+		return res.status(201).json({
 			success: true,
-			message: "Template assigned",
-			data: assignment,
+			message: "Templates assigned to user group successfully",
+			data: assignedTemplates,
 		});
 	} catch (error) {
-		console.error("Error assigning template:", error);
+		console.error("Error assigning templates:", error);
 		return res.status(500).json({ success: false, message: error.message });
 	}
 };

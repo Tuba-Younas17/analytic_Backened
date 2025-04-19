@@ -4,7 +4,6 @@ import { apiRouter } from "./routes/apiRoutes/apiRouter.js";
 import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config();
-
 const app = express();
 connectToMongoDb();
 app.use(cors());
