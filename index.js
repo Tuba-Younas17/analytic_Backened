@@ -8,6 +8,8 @@ const app = express();
 connectToMongoDb();
 app.use(cors());
 app.use(express.json());
+app.use("/uploads", express.static("uploads"));
+
 app.use("/api", apiRouter);
 
 app.get("/", (req, res) => {

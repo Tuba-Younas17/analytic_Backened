@@ -2,9 +2,12 @@ import { Chart } from "../../../models/chartModel.js";
 
 export const createChartController = async (req, res) => {
 	try {
-		const { dataPointId, plotCombination, chartType, pivot } = req.body;
+		console.log(req.body);
+		const { dataPointId, plotCombination, chartType, pivot, title } =
+			req.body;
+		console.log(title);
 
-		const title = `${plotCombination.y} vs ${plotCombination.x}`;
+		// const title = chartTitle;
 
 		const newChart = new Chart({
 			title,
@@ -13,6 +16,7 @@ export const createChartController = async (req, res) => {
 			chartType,
 			pivot: pivot || false,
 		});
+		console.log(newChart);
 
 		await newChart.save();
 

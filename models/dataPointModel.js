@@ -9,7 +9,7 @@ const dataPointSchema = new Schema({
 	userRoles: { type: [String], required: true },
 	data: [
 		{
-			numberOfResponse: { type: Number }, // or Date/Number
+			response: { type: Number }, // or Date/Number
 			date: { type: Number }, // or Date/String based on your chart
 			// Add more fields if needed
 		},
