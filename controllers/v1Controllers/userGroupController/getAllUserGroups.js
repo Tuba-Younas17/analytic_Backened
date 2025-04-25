@@ -1,4 +1,5 @@
-import { UserGroup } from "../../../models/UserGroup.js";
+import { UserGroup } from "../../../models/userGroupModel.js";
+
 
 
 // GET all user groups
